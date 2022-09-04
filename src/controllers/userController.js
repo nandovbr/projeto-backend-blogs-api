@@ -35,7 +35,39 @@ const validLogin = async (req, res) => {
   }
 };
 
+const createUser = async (req, res) => {
+  try {
+    const { displayName, email, password, image } = req.body;
+
+    if (email) {
+      const user = await User.findOne({ where: { email } });
+      if (user) {
+        return res.status(409).json({ message: 'User already registered' });
+      }
+    }
+
+    await User.create({ displayName, email, password, image });
+
+    // if (!user || user.password !== password) {
+    //   return res.status(400).json({ message: 'Invalid entries. Try again.' });
+    // }
+
+    // if (displayName.length < 8) {
+    // return res.status(400).json({ message: '"displayName" length must be at least 8 characters long' });
+    // }
+
+    // if (password.length < 6) {
+    //   return res.status(400).json({ message: 'password length must be at least 6 characters long' });
+    // }
+
+    const token = jwt.sign({ email }, JWT_SECRET);
+    return res.status(201).json({ token });
+  } catch (err) {
+    return res.status(400).json({ message: 'Internal server error', error: err.message });
+  }
+};
+
 module.exports = {
   validLogin,
-  validBody,
+  createUser,
 };
