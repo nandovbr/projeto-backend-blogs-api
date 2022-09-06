@@ -1,6 +1,7 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const { User } = require('../database/models');
+const userServices = require('../services/userServices');
 
 const { JWT_SECRET } = process.env;
 
@@ -67,7 +68,22 @@ const createUser = async (req, res) => {
   }
 };
 
+const getAllUsers = async (_req, res) => {
+  try {
+    const { error, code, data } = await userServices.getAllUsers();
+
+    if (error) {
+      return res.status(code).json(error);
+    }
+
+    return res.status(code).json(data);
+  } catch (err) {
+    return res.status(400).json({ message: 'Internal server error', error: err.message });
+  }
+};
+
 module.exports = {
   validLogin,
   createUser,
+  getAllUsers,
 };
