@@ -13,4 +13,16 @@ const getAllUsers = async () => {
   return users;
 };
 
-module.exports = { getAllUsers };
+const getUserById = async (id) => {
+  const user = await User.findOne({
+    where: { id },
+    attributes: { exclude: ['password'] },
+  });
+
+  return user;
+};
+
+module.exports = {
+  getAllUsers,
+  getUserById,
+};

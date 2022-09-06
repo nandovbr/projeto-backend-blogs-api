@@ -79,8 +79,24 @@ const getAllUsers = async (_req, res) => {
   }
 };
 
+const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await userServices.getUserById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User does not exist' });
+    }
+
+    return res.status(200).json(user);
+  } catch (err) {
+    return res.status(400).json({ message: 'Internal server error', error: err.message });
+  }
+};
+
 module.exports = {
   validLogin,
   createUser,
   getAllUsers,
+  getUserById,
 };
