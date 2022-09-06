@@ -5,6 +5,7 @@ const errorMiddleware = require('./middlewares/errorMidleware');
 
 const loginRoute = require('./routes/loginRoute');
 const userRoute = require('./routes/userRoute');
+const categoryRoute = require('./routes/categoryRoute');
 
 // não remova a variável `API_PORT` ou o `listen`
 const port = process.env.API_PORT || 3000;
@@ -18,6 +19,7 @@ app.use(bodyParser.json());
 
 app.use('/login', loginRoute);
 app.use('/user', userRoute);
+app.use('/categories', categoryRoute);
 
 app.use(errorMiddleware);
 app.listen(port, () => console.log('ouvindo porta', port));
