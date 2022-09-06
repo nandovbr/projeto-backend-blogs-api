@@ -37,24 +37,27 @@ const validLogin = async (req, res) => {
     return res.status(400).json({ message: 'Invalid fields' });
   }
 
-  const { id } = user.dataValues;
-  const token = createToken({ email, id });
+  // const { id } = user.dataValues;
+  const token = createToken({ email });
 
   return res.status(200).json({ token });
 };
 
-const validToken = async (req, res) => {
-  const token = req.headers.authorization;
-
-  if (!token) {
+const validToken = async (req, res, next) => {
+  const { authorization } = req.headers;
+  // console.log('token >>>>>>>>>>>>>>>>>>', req.headers);
+  if (!authorization) {
     return res.status(401).json({ message: 'Token not found' });
   }
 
+  console.log(JWT_SECRET);
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    
-    return decoded;
+    const userToken = jwt.verify(authorization, JWT_SECRET);
+    req.user = userToken;
+
+    next();
   } catch (err) {
+    console.log(err);
     return res.status(401).json({ message: 'Expired or invalid token' });
   }
 };

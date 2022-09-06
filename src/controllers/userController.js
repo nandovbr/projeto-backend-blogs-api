@@ -70,13 +70,10 @@ const createUser = async (req, res) => {
 
 const getAllUsers = async (_req, res) => {
   try {
-    const { error, code, data } = await userServices.getAllUsers();
+    const users = await userServices.getAllUsers();
+    // console.log('entrei userController', users);
 
-    if (error) {
-      return res.status(code).json(error);
-    }
-
-    return res.status(code).json(data);
+    return res.status(200).json(users);
   } catch (err) {
     return res.status(400).json({ message: 'Internal server error', error: err.message });
   }
