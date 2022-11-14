@@ -10,7 +10,7 @@ Desenvolvi os conteúdos em:
 - src/routes;
 - src/database/migrations;
 - src/database/models
-- src/server.js (apenas a chamada das rotas com as importações dos arquivos da pasta routes).
+- src/server.js (apenas a chamada das rotas com as importações dos arquivos do diretório routes).
 
 Os demais itens foram clonados do reposítório da Trybe por ser um projeto para desenvolvimento onde se obtém uma nota de aprovação para avanço no curso.
 
